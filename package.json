@@ -27,5 +27,8 @@
 		"hyperdev",
 		"express"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"devDependencies": {
+		"chai-wait-for": "^1.0.4"
+	}
 }
