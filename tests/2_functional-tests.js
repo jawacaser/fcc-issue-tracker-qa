@@ -161,7 +161,8 @@ suite('Functional Tests', function() {
         })
         .end(function (err, res) {
             assert.equal(res.status, 200)
-            assert.equal(res.body, { result: "successfully updated", _id: id })
+            assert.equal(res.body.result, "successfully updated")
+            assert.equal(res.body._id, id)
         })
         // GET the issue_text value again, and compare to stored value
         chai.request(server)
