@@ -97,10 +97,18 @@ module.exports = function (app) {
       let update = req.body
       let id = req.body._id;
 
+      function updateFieldsPresent() {
+        let numberOfFields = 0
+        Object.entries(update).forEach(([key, value]) => {
+          value ? numberOfFields++ : null
+        })
+        return numberOfFields > 1 ? true : false
+      }
+      
       // Handle missing id error & missing fields error
       if (id === undefined) {
         return res.json({ error: "missing _id" })
-      } else if (Object.keys(update).length < 2) {
+      } else if (!updateFieldsPresent()) {
         return res.json({ error: "no update field(s) sent", _id: id })
       }
 
@@ -112,7 +120,7 @@ module.exports = function (app) {
         if (update.created_by != undefined) { data.created_by = update.created_by }
         if (update.status_text != undefined) { data.status_text = update.status_text }
         if (update.assigned_to != undefined) { data.assigned_to = update.assigned_to }
-        if (update.open === false) { data.open = false }
+        if (update.open == 'false') { data.open = false }
         // Updated time logged
         data.updated_on = (new Date()).toISOString()
         // Save the updated document
